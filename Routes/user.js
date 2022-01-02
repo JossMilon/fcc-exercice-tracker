@@ -33,22 +33,31 @@ router.get("/api/users", async (req, res) => {
 router.post("/api/users/:_id/exercises", async (req, res) => {
     try {
         const userId = req.params._id;
-        console.log(req.fields.date);
-        const userFound = await User.findById(userId);
-        if (userFound) {
-            const date = req.fields.date? new Date(req.fields.date): new Date();
-            const exercice = new Exercice({
-                username: userFound.username,
-                description: req.fields.description,
-                duration: req.fields.duration,
-                date: date.toDateString(),
-                _id: userFound._id
-            })
-            await exercice.save();
-            res.status(200).json(exercice);
+        const date = req.fields.date? new Date(req.fields.date): new Date();
+        const exerciceFound = await Exercice.findByIdAndUpdate(userId, {
+            description: req.fields.description,
+            duration: req.fields.duration,
+            date: date.toDateString()
+        });
+        if (exerciceFound) {
+            res.status(200).json(exerciceFound); 
         }
         else {
-            res.status(200).json({message: "No user corresponding to this ID"});
+            const userFound = await User.findById(userId);
+            if (userFound) {
+                const exercice = new Exercice({
+                    username: userFound.username,
+                    description: req.fields.description,
+                    duration: req.fields.duration,
+                    date: date.toDateString(),
+                    _id: userFound._id
+                })
+                await exercice.save();
+                res.status(200).json(exercice);
+            }
+            else {
+                res.status(200).json({message: "No user corresponding to this ID"});
+            }
         }
     }
     catch(error) {
