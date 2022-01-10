@@ -8,8 +8,6 @@ const mongoCon = process.env.MONGODB_URI || "mongodb://localhost:27017/exercice-
 // Connecting to DB
 
 mongoose.connect(mongoCon);
-// mongodb+srv://Gjloss:oLN1FhMf256VMwtg@exercice-tracker.oz9xz.mongodb.net/test
-// mongodb://localhost:27017/exercice-tracker
 
 // Initialize server and add middlewares
 
