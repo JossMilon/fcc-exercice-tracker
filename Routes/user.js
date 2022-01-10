@@ -43,6 +43,7 @@ router.post("/api/users/:_id/exercises", isExistingUser, async (req, res) => {
         const exercice = new Exercice({
             description: req.fields.description,
             duration: req.fields.duration,
+            date: date.toDateString(),
             parsedDate: Date.parse(date),
             user: userFound._id
         })
