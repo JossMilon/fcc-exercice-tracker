@@ -86,12 +86,11 @@ router.get("/api/users/:_id/logs", isExistingUser, async (req, res) => {
             console.log("No dateMin & dateMax");
             logs = await Exercice.find({user: userFound._id }).select("description duration date");
         }
-        const logsReturned = logs.slice(0, limit);
         res.status(200).json({
             username: userFound.username,
             count: logs.length,
             _id: userFound._id,
-            log: logsReturned
+            log: limit? logs.slice(0, limit): logs
         });
     }
     catch(error) {
