@@ -51,7 +51,7 @@ router.post("/api/users/:_id/exercises", isExistingUser, async (req, res) => {
         res.status(200).json({
             username: userFound.username,
             description: req.fields.description,
-            duration: req.fields.duration,
+            duration: Number(req.fields.duration),
             date: date.toDateString(),
             _id: userFound._id
         });
@@ -61,8 +61,7 @@ router.post("/api/users/:_id/exercises", isExistingUser, async (req, res) => {
     }
 });
 
-//Get user logs including limit and filter
-//Rajouter les limit from and to and limit
+//Get all exercises from a user route
 router.get("/api/users/:_id/logs", isExistingUser, async (req, res) => {
     try {
         const dateMin = Date.parse(req.query.from);
